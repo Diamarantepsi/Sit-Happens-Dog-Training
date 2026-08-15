@@ -1,0 +1,16 @@
+# Dependencias e sistema
+node_modules/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Plataforma
+.vercel
+
+# Midia original vinda do WhatsApp, pesada e nao usada pelo site.
+# O que o site usa esta em assets/video, ja otimizado.
+VID-*.mp4
+originais/
+
+# Arquivos de teste temporarios
+_teste-*.html
