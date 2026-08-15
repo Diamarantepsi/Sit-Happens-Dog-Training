@@ -20,7 +20,7 @@ Atualizado em 14 de agosto de 2026.
 | **Foto de rosto da Isis** | A seção "Sobre a Isis" é só texto. Um site de serviço em que a confiança é o produto funciona muito melhor com o rosto de quem atende. | Ela declarou ter a foto. |
 | **Fotos dos atendimentos** | O site usa apenas os sete vídeos. Ela marcou "fotos dos atendimentos" como seção obrigatória no briefing, e hoje isso está coberto só por vídeo. | Ela declarou ter algumas fotos trabalhando e poucas de antes e depois. |
 | **Endereço do espaço próprio** | O site diz que ela atende "em espaço próprio" sem dizer onde. Quem prefere levar o cão até ela não consegue avaliar a distância. | Também é necessário para completar o JSON-LD de negócio local, que hoje só declara São Paulo e SP. |
-| **Logo em arquivo aberto ou vetor** | A logo do site veio do único JPEG existente, com o fundo branco removido por processamento. Serve para tela, não serve para bordado, adesivo recortado nem impressão grande. | A arte foi gerada com inteligência artificial e não existe arquivo editável. Ver a seção 4 abaixo. |
+| **Logo redesenhada de verdade** | Já existe um vetor em `assets/logo/logo-vetor.svg`, obtido por vetorização automática do JPEG. Ele resolve escala e impressão grande, mas não resolve bordado nem aplicação em uma cor só. Ver a seção 4 abaixo. | A arte original foi gerada com inteligência artificial e nunca teve arquivo editável. |
 
 ## 3. Trava a formalização da presença
 
@@ -34,7 +34,8 @@ Atualizado em 14 de agosto de 2026.
 
 Nenhuma destas trava o site, mas todas apareceram no briefing e merecem resposta antes da papelaria.
 
-- **A logo é 100% gerada por inteligência artificial e existe só como imagem.** Isso significa que hoje não dá para redimensionar sem perda, mudar cor, aplicar em uma cor só, bordar em camiseta ou recortar em adesivo. Todo material físico que ela listou (camiseta, boné, adesivo de carro, coleira, bandana, caneca, sacola) depende de um vetor que ainda não existe.
+- **A logo foi vetorizada, e isso resolve metade do problema.** O arquivo `assets/logo/logo-vetor.svg` foi gerado pelo vetorizador da Adobe a partir do PNG transparente, teve o retângulo branco de fundo removido e foi otimizado de 904 KB para 424 KB. Ele escala sem perda e serve para impressão grande, placa e adesivo colorido.
+- **O que o vetor ainda não resolve.** O cão da arte é uma foto realista gerada por IA, e a vetorização transformou o pelo em cerca de 1.300 formas de cor chapada. O resultado é escalável, porém não é uma logo editável: ninguém consegue mexer nele no Illustrator de forma prática, e ele não funciona em uma cor só. Bordado em camiseta e boné, gravação em coleira e qualquer aplicação monocromática continuam pedindo um redesenho manual do escudo, da faixa e de uma silhueta simplificada do cão.
 - **Ela não enviou nenhuma referência visual.** As perguntas sobre perfis do Instagram que ela acha bonitos e sobre um perfil que ela achou feio ficaram em branco, assim como a pergunta sobre concorrentes. O visual atual do site foi derivado apenas das notas de personalidade (profissional 4, tranquila 5, clássica 5, forte 5, sofisticada 4) e das cores medidas na logo.
 - **Registro no INPI.** Ela respondeu que não sabe o que é. O nome "Sit Happens Dog Training" não está registrado, e o site já publica a marca.
 
