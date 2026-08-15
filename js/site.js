@@ -9,10 +9,10 @@
      CONFIGURACAO
      ------------------------------------------------------------------------ */
 
-  /* WhatsApp da Isis, formato internacional, so numeros. */
+  /* WhatsApp da Isis Ribas, formato internacional, so numeros. */
   var WHATSAPP = '5511976672133';
 
-  /* Ligue para true quando a Isis enviar a tabela de valores. */
+  /* Ligue para true quando a Isis Ribas enviar a tabela de valores. */
   var MOSTRAR_PRECOS = false;
 
   /* PENDENTE: valores dos servicos. Preencha e ligue MOSTRAR_PRECOS.
@@ -284,7 +284,7 @@
 
   /* ------------------------------------------------------------------------
      FORMULARIO
-     Monta a mensagem e abre o WhatsApp da Isis com o texto pronto.
+     Monta a mensagem e abre o WhatsApp da Isis Ribas com o texto pronto.
      ------------------------------------------------------------------------ */
   var formulario = $('#formulario-contato');
 
@@ -351,7 +351,7 @@
       var v = function (id) { return ($('#' + id).value || '').trim(); };
 
       var linhas = [
-        'Olá, Isis. Vim pelo site da Sit Happens.',
+        'Olá, Isis Ribas. Vim pelo site da Sit Happens.',
         '',
         'Nome: ' + v('nome'),
         'WhatsApp: ' + v('whatsapp'),

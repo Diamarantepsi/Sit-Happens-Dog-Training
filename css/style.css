@@ -277,6 +277,7 @@ strong { color: var(--branco); font-weight: 600; }
   color: var(--claro-medio);
   position: relative;
   padding-block: 0.35rem;
+  white-space: nowrap;
 }
 .navegacao a::after {
   content: "";
@@ -918,9 +919,9 @@ strong { color: var(--branco); font-weight: 600; }
   .rodape__grade { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem; }
 }
 
-@media (max-width: 780px) {
-  html { scroll-padding-top: 76px; }
-
+/* A navegacao troca para menu recolhido antes do resto do layout, porque
+   "Sobre a Isis Ribas" nao cabe na barra em telas medias. */
+@media (max-width: 1080px) {
   .abre-menu { display: flex; }
   .topo .botao--dourado { display: none; }
 
@@ -945,6 +946,10 @@ strong { color: var(--branco); font-weight: 600; }
     margin-top: 1.25rem;
     width: 100%;
   }
+}
+
+@media (max-width: 780px) {
+  html { scroll-padding-top: 76px; }
 
   .abertura { min-height: auto; padding-block: 7.5rem 4rem; }
   .campos { grid-template-columns: minmax(0, 1fr); }
