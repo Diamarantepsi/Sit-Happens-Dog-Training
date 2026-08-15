@@ -919,9 +919,10 @@ strong { color: var(--branco); font-weight: 600; }
   .rodape__grade { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem; }
 }
 
-/* A navegacao troca para menu recolhido antes do resto do layout, porque
-   "Sobre a Isis Ribas" nao cabe na barra em telas medias. */
-@media (max-width: 1080px) {
+/* A navegacao recolhe no menu sanduiche antes do resto do layout. Medido:
+   marca, sete links e o botao de contato so cabem lado a lado a partir de
+   1020 px. Abaixo disso o botao transbordava a barra do topo. */
+@media (max-width: 1020px) {
   .abre-menu { display: flex; }
   .topo .botao--dourado { display: none; }
 

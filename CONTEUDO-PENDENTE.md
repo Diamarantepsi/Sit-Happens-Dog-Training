@@ -42,7 +42,7 @@ Nenhuma destas trava o site, mas todas apareceram no briefing e merecem resposta
 ## 5. O que já está resolvido e não precisa de ação
 
 - Número de WhatsApp: 11 97667-2133, configurado na constante `WHATSAPP` no topo de `js/site.js`.
-- Como ela é chamada: **Isis Ribas**, com sobrenome, em todo o site. No briefing ela havia respondido que preferia ser chamada só pelo primeiro nome, e essa decisão foi revista depois. Não reverter para "Isis" sem nova instrução.
+- Como ela é chamada: **Isis**, só o primeiro nome, em todo o site, exatamente como ela respondeu no briefing. Chegou-se a testar a versão com sobrenome e ela foi descartada. Não trocar para "Isis Ribas" sem nova instrução.
 - Sete vídeos de atendimento, otimizados e com pôster.
 - Autorização de imagem dos tutores: ela declarou no briefing que todos autorizaram.
 - Mapa das regiões: ela respondeu que prefere decidir depois, então o site lista os quatorze bairros em texto e não tem mapa.
