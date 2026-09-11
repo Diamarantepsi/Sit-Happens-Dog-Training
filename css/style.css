@@ -662,21 +662,198 @@ strong { color: var(--branco); font-weight: 600; }
 }
 
 /* --------------------------------------------------------------------------
-   12. Depoimentos
+   12. Depoimentos, no formato de conversa de WhatsApp
    -------------------------------------------------------------------------- */
-.depoimentos {
+.depoimentos-wa {
+  display: flex;
+  justify-content: center;
+}
+.wa-print {
+  margin: 0;
+  width: 100%;
+  max-width: 420px;
+}
+
+/* Moldura do aparelho */
+.wa-fone {
+  border-radius: 30px;
+  overflow: hidden;
+  background: #e9e4dd;
+  border: 6px solid #05121f;
+  box-shadow: 0 30px 60px rgba(1, 10, 27, 0.55), 0 0 0 1px rgba(205, 179, 118, 0.25);
+}
+
+/* Barra de topo do WhatsApp */
+.wa-topo {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  background: #075e54;
+  color: #ffffff;
+  padding: 0.85rem 0.9rem;
+}
+.wa-topo__voltar { flex: none; opacity: 0.9; }
+.wa-avatar {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.25rem;
+  place-items: center;
+  background: #ffffff;
+  color: #075e54;
 }
-.depoimento {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(205, 179, 118, 0.18);
-  border-radius: var(--raio);
-  padding: 1.75rem;
+.wa-topo__info {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
 }
-.depoimento blockquote { margin: 0 0 1.1rem; font-size: 1rem; color: var(--claro-medio); }
-.depoimento figcaption { font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dourado); }
+.wa-nome {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.wa-status { font-size: 0.78rem; color: rgba(255, 255, 255, 0.78); }
+.wa-topo__acoes { flex: none; display: flex; gap: 1rem; opacity: 0.92; }
+
+/* Corpo da conversa */
+.wa-corpo {
+  padding: 1.1rem 0.85rem 1.4rem;
+  background-color: #d9d2c7;
+  background-image:
+    radial-gradient(rgba(14, 36, 71, 0.05) 1.1px, transparent 1.1px),
+    radial-gradient(rgba(14, 36, 71, 0.05) 1.1px, transparent 1.1px);
+  background-position: 0 0, 13px 13px;
+  background-size: 26px 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.wa-chip-data {
+  align-self: center;
+  background: #cfd9e2;
+  color: #4a4f58;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  padding: 0.28rem 0.7rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 1px rgba(1, 10, 27, 0.1);
+}
+
+/* Balão de mensagem recebida */
+.wa-balao {
+  position: relative;
+  max-width: 90%;
+  padding: 0.6rem 0.7rem 1.2rem;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #0b1c2e;
+  box-shadow: 0 1px 1.5px rgba(1, 10, 27, 0.18);
+}
+.wa-balao--entrada {
+  align-self: flex-start;
+  background: #ffffff;
+  border-top-left-radius: 2px;
+}
+.wa-balao--entrada::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -8px;
+  width: 8px;
+  height: 13px;
+  background: #ffffff;
+  clip-path: polygon(100% 0, 0 0, 100% 100%);
+}
+
+/* Player de áudio */
+.wa-audio {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.15rem 0.1rem 0.55rem;
+}
+.wa-audio__foto {
+  flex: none;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #075e54;
+  color: #ffffff;
+}
+.wa-audio__play {
+  flex: none;
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  color: #54656f;
+}
+.wa-audio__onda {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  height: 26px;
+}
+.wa-audio__onda i {
+  flex: 1 1 auto;
+  min-width: 2px;
+  border-radius: 2px;
+  background: #adb7bd;
+}
+.wa-audio__onda i:nth-child(-n + 6) { background: #34b7f1; }
+.wa-audio__tempo { flex: none; font-size: 0.72rem; color: #667781; font-variant-numeric: tabular-nums; }
+
+/* Transcrição dentro do balão */
+.wa-transcricao {
+  border-top: 1px solid #eceff1;
+  padding-top: 0.6rem;
+}
+.wa-transcricao__rotulo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #075e54;
+  margin-bottom: 0.4rem;
+}
+.wa-transcricao p { margin: 0 0 0.6rem; color: #1c2b3a; }
+.wa-transcricao p:last-child { margin-bottom: 0; }
+
+/* Hora e confirmação de leitura */
+.wa-hora {
+  position: absolute;
+  right: 0.7rem;
+  bottom: 0.5rem;
+  font-size: 0.66rem;
+  color: #667781;
+  font-variant-numeric: tabular-nums;
+}
+
+.wa-print__legenda {
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 0.8125rem;
+  color: var(--claro-fraco);
+}
+
+@media (max-width: 420px) {
+  .wa-fone { border-radius: 22px; border-width: 4px; }
+  .wa-balao { max-width: 95%; }
+}
 
 /* --------------------------------------------------------------------------
    13. Regioes
