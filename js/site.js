@@ -39,7 +39,11 @@
       paragrafos: [
         'A gente gosta muito de você, o jeito que você trata a gente, trata o Perseu. Sempre foi tudo com você que a gente preferia conversar.',
         'As aulinhas que a gente fez com você sempre foram super tranquilas, super didáticas. Você ouve muito a gente, sempre ouviu a gente falando da nossa rotina, do jeito que a gente trata o Perseu quando vai passear.',
-        'Vamos manter com você 100%. Tenho certeza que vai dar certo, pode contar com a gente.'
+        /* ATENCAO: esta linha NAO esta no audio. A Isis pediu em 12/09/2026 para
+           tirar o fecho original, "vamos manter com voce 100%", e o cliente
+           escolheu esta frase no lugar. Falta os tutores confirmarem que
+           assinam. Ver CONTEUDO-PENDENTE.md, secao 1. */
+        'Adoramos o seu trabalho.'
       ]
     }
   ];

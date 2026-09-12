@@ -3,13 +3,14 @@
 Tudo que está listado aqui ficou de fora do site porque a Isis ainda não enviou.
 Nada foi inventado para preencher lacuna.
 
-Atualizado em 11 de setembro de 2026.
+Atualizado em 12 de setembro de 2026.
 
 ## 1. Trava seções inteiras do site
 
 | Item | O que está desligado hoje | Como ligar |
 |---|---|---|
 | **Valores dos serviços** | **A seção de preços não existe mais no HTML.** Ela foi removida no redesenho de 11/09/2026, junto com o array `PRECOS` e a chave `MOSTRAR_PRECOS`, porque estava oculta desde agosto e o pedido era enxugar o site. Ela marcou preços como obrigatório no briefing, então continua sendo a maior lacuna. | Quando a Isis mandar a tabela, os valores entram como uma `dl.ficha` dentro da seção **O trabalho**, no mesmo formato da ficha técnica da Isis. Não é preciso recriar a seção antiga. |
+| **Confirmação do fecho do depoimento** | O depoimento do Perseu termina hoje em **"Adoramos o seu trabalho."**, e **essa frase não foi dita no áudio**. Ver a seção 4.4. | A Isis pede aos tutores que confirmem que assinam a frase. Se recusarem, o fecho volta a ser palavra deles: descer "Sempre foi tudo com você que a gente preferia conversar" para o fim. |
 | **Depoimentos de clientes** | Resolvido em parte: a seção já está no ar com um depoimento, dos tutores do Perseu, autorizado por eles. Faltam os demais prints que ela declarou ter. | Transcrever cada print novo para o array `DEPOIMENTOS` em `js/site.js`, no formato `{ texto, autor }`. Confirmar autorização de cada pessoa antes de publicar. Quando passar de um depoimento, a classe `depoimentos--unico` deixa de ser aplicada e a grade volta a distribuir os cartões. |
 | **Links de redes sociais** | O rodapé tem só o formulário e o WhatsApp. Não há Instagram nem qualquer outra rede. | Enviar as URLs. Entram na lista de contato do rodapé. |
 
@@ -102,11 +103,11 @@ O que o manual determina, e que o site passou a seguir em 12/09/2026:
 
 | Regra | Como o site cumpre |
 |---|---|
-| Cabeçalho de site usa a **faixa com o nome**, 48 a 64px, à esquerda | Topo usa a faixa a 56px, 48px no celular |
-| Emblema completo exige **180px de altura no mínimo** | Rodapé usa 200px, 180px no celular |
+| Cabeçalho de site usa a **faixa com o nome**, 48 a 64px, à esquerda | **Não cumprido desde 12/09/2026.** O cliente recusou a faixa e pediu o emblema completo. Ver a seção 4.4 |
+| Emblema completo exige **180px de altura no mínimo** | Rodapé cumpre, com 200px, 180px no celular. **O topo não cumpre**: 76px, por decisão do cliente |
 | Fundos permitidos: `#0E2447`, `#010A1B`, `#FFFFFF`. Meio tom estraga | Rodapé virou `#010A1B` |
 | **Sem caixa**: nunca colar retângulo branco em volta | A chapa clara que existia no rodapé foi removida |
-| **Não encostar texto** na área de respiro, que vale 1/4 da altura | 144px acima e 64px abaixo do emblema, contra 50px exigidos |
+| **Não encostar texto** na área de respiro, que vale 1/4 da altura | Rodapé deixa 80px entre a frase e o emblema, contra 50px exigidos. No topo, 24px até o menu, contra 19px |
 | Nunca recolorir, deformar, girar, nem aplicar efeito | Nenhum filtro, sombra ou contorno em nenhuma aplicação |
 | Ícone quadrado só para favicon e foto de perfil | `icone-32/180/512` seguem só no favicon |
 
@@ -126,6 +127,49 @@ própria, precisa estar bem colocada no fecho do site.
 e no rodapé, então é baixado uma vez só. Comprimir ou gerar um WebP derrubaria
 para perto de 150 KB. Não foi feito: não há ferramenta de imagem instalada nesta
 máquina.
+
+## 4.4. As duas mudanças de 12 de setembro de 2026
+
+Ambas pedidas pelo Adriano depois de ver o site no ar.
+
+### A marca deixou de ser faixa no topo e deixou de ser bloco no pé
+
+**No topo, entra o emblema completo.** A faixa com o nome, que o manual manda
+usar em cabeçalho de site, foi recusada. Para o cão não virar mancha, a barra
+fixa subiu de 64px para 96px e o emblema ocupa 76px, 58px no celular, onde a
+barra fica com 76px.
+
+**Isso contraria o manual**, que exige 180px de altura para o emblema completo.
+Não cabe: uma barra fixa de 180px comeria um quinto de uma tela de notebook. A
+troca é consciente e é do cliente. O efeito colateral é que o nome "SIT HAPPENS"
+encolheu de 56px de altura, que era o que a faixa dava, para cerca de 25px.
+
+**No rodapé, o emblema subiu para o lado da frase.** Ele estava sozinho no pé da
+página, centralizado, com 80px de margem em cima e 64px de espaçamento em volta.
+Custava cerca de 400px de altura para repetir uma informação que já estava no
+topo. Agora divide a linha com "Não basta ensinar o cão", em duas colunas, com
+80px de respiro entre os dois, contra os 50px que o manual exige. Continua com
+200px de altura, acima do mínimo.
+
+**No celular não cabe lado a lado**: a frase ficaria com cerca de oito
+caracteres por linha. Empilha, com o emblema em 180px, o mínimo do manual.
+Mesmo empilhado o rodapé encurtou, porque saíram os 208px de espaçamento que o
+bloco solto exigia só para respirar.
+
+### O depoimento ganhou um fecho que ninguém disse
+
+A Isis pediu para tirar "vamos manter com você 100%, tenho certeza que vai dar
+certo, pode contar com a gente". No lugar entrou **"Adoramos o seu trabalho."**,
+escolhida pelo Adriano.
+
+**Essa frase não existe no áudio dos tutores.** Não sobrou no áudio nenhum elogio
+que já não estivesse publicado, então as alternativas sem invenção eram descer
+"Sempre foi tudo com você que a gente preferia conversar" para o fecho, ou
+terminar no segundo parágrafo. Foi registrado um alerta em `js/site.js`, na
+própria linha, e o detalhe completo está em
+`originais/depoimento-perseu-transcricao.md`.
+
+Até os tutores confirmarem, o site publica uma frase nossa assinada por eles.
 
 ## 5. O que já está resolvido e não precisa de ação
 
