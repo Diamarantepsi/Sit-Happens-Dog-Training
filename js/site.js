@@ -207,6 +207,12 @@
       listaDepoimentos.classList.add('depoimentos--unico');
     }
     secaoDepoimentos.hidden = false;
+  } else {
+    /* Sem depoimento, o menu nao deve apontar para uma secao oculta. */
+    var linkDepoimentos = $('#navegacao a[href="#depoimentos"]');
+    if (linkDepoimentos && linkDepoimentos.parentNode) {
+      linkDepoimentos.parentNode.parentNode.removeChild(linkDepoimentos.parentNode);
+    }
   }
 
   /* ------------------------------------------------------------------------

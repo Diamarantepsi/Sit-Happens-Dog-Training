@@ -670,6 +670,8 @@ strong { color: var(--branco); font-weight: 600; }
   gap: 1.25rem;
 }
 .depoimento {
+  /* figure vem com margin 1em 40px do navegador, e isso desalinhava o cartao. */
+  margin: 0;
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(205, 179, 118, 0.18);
   border-radius: var(--raio);
@@ -677,8 +679,9 @@ strong { color: var(--branco); font-weight: 600; }
 }
 .depoimento blockquote { margin: 0 0 1.1rem; font-size: 1rem; color: var(--claro-medio); }
 .depoimento figcaption { font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dourado); }
-/* Um depoimento sozinho nao deve esticar a largura toda da secao. */
-.depoimentos--unico { max-width: 46rem; margin-inline: auto; }
+/* Um depoimento sozinho nao deve esticar a largura toda da secao.
+   Alinha pela esquerda, no mesmo eixo do titulo. */
+.depoimentos--unico { max-width: 46rem; }
 
 /* --------------------------------------------------------------------------
    13. Regioes
