@@ -77,16 +77,14 @@
 
 <header class="topo">
   <div class="topo__interno">
-    <!-- Manual da marca: cabecalho de site usa a FAIXA COM O NOME, de 48 a
-         64px, a esquerda. O emblema completo exige 180px de altura, que nao
-         cabe numa barra de 64px, e encolher e uso proibido. A faixa e o
-         recorte inferior do mesmo arquivo, sem recolorir e sem deformar.
-         Nada de texto ao lado: o nome ja esta na faixa e a area de respiro
-         nao pode ser invadida. -->
+    <!-- Emblema completo no topo, a pedido do cliente em 12/09/2026. A faixa
+         com o nome, que o manual indica para cabecalho de site, foi recusada.
+         Para o cao nao virar mancha, a barra subiu de 64px para 96px e o
+         emblema ocupa 76px. Fica abaixo dos 180px que o manual exige para o
+         emblema completo: decisao do cliente, registrada em CONTEUDO-PENDENTE.
+         Sem recolorir, sem deformar, sem caixa em volta. -->
     <a class="topo__marca" href="#inicio" aria-label="Sit Happens Dog Training, ir para o topo">
-      <span class="marca-faixa" aria-hidden="true">
-        <img src="assets/logo/logo.png" alt="" width="770" height="852" decoding="async">
-      </span>
+      <img src="assets/logo/logo.png" alt="" width="770" height="852" decoding="async">
     </a>
 
     <div class="topo__acoes">
@@ -624,7 +622,19 @@
 
 <footer class="rodape">
   <div class="envoltorio">
-    <p class="rodape__frase">Não basta ensinar o cão. É preciso ensinar quem convive com ele.</p>
+    <!-- A marca fecha o site ao lado da frase, e nao sozinha embaixo. O bloco
+         solto no pe alongava a pagina em cerca de 400px sem dizer nada novo.
+         Aqui o emblema ocupa uma altura que a frase ja gastava. 200px, acima
+         do minimo de 180 do manual, com 80px de respiro ate o texto, contra
+         os 50px exigidos. -->
+    <div class="rodape__abertura">
+      <p class="rodape__frase">Não basta ensinar o cão. É preciso ensinar quem convive com ele.</p>
+      <div class="rodape__marca">
+        <img src="assets/logo/logo.png"
+             alt="Sit Happens Dog Training"
+             width="770" height="852" loading="lazy" decoding="async">
+      </div>
+    </div>
 
     <div class="rodape__grade">
       <div>
@@ -653,17 +663,6 @@
           <li><a id="link-whatsapp" href="#contato">WhatsApp</a></li>
         </ul>
       </div>
-    </div>
-
-    <!-- Fecho do site. Emblema completo a 200px, acima do minimo de 180.
-         Fundo #010A1B, que o manual permite. Sem caixa em volta e sem
-         nenhum texto dentro da area de respiro, que vale um quarto da
-         altura da marca de cada lado. O nome nao se repete embaixo:
-         ele ja esta na faixa do proprio emblema. -->
-    <div class="rodape__assinatura">
-      <img src="assets/logo/logo.png"
-           alt="Sit Happens Dog Training"
-           width="770" height="852" loading="lazy" decoding="async">
     </div>
 
     <div class="rodape__fim">

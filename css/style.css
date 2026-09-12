@@ -33,7 +33,7 @@
 
   --largura: 1440px;
   --gutter: clamp(20px, 5vw, 64px);
-  --topo-altura: 64px;
+  --topo-altura: 96px;   /* alta o bastante para o emblema completo */
 
   /* Camadas nomeadas, nunca valores soltos. */
   --z-base: 1;
@@ -180,32 +180,19 @@ a { color: inherit; }
 }
 .topo__marca { display: flex; align-items: center; text-decoration: none; }
 
-/* FAIXA COM O NOME
-   A variacao secundaria da marca e, segundo o manual, o recorte inferior
-   da propria arte, sem o escudo. So existe um arquivo, entao o recorte e
-   feito aqui: a imagem inteira e ampliada dentro de uma janela que mostra
-   apenas a faixa. Isso nao recolore, nao deforma e nao gira nada, porque
-   largura e altura crescem juntas.
+/* EMBLEMA COMPLETO NO TOPO
+   O cliente recusou a faixa com o nome, que era o recorte inferior da arte,
+   e pediu a marca inteira. Como o escudo e quase quadrado (770x852), altura
+   e o que manda: a 76px o cao ainda se le e o nome na fita fica com cerca de
+   25px. Abaixo disso o pelo do cao vira um borrao escuro.
 
-   Medidas medidas no proprio arquivo, varrendo o canal alfa: as abas da
-   fita comecam em y=575 e a arte desce ate a base, ocupando a largura
-   inteira do PNG. Logo o recorte e so vertical, de 575 a 852, com os
-   770px de largura inteiros: 277 de altura. */
-.marca-faixa {
-  --faixa-altura: 56px;
+   A area de respiro do manual vale um quarto da altura, ou seja 19px. Em
+   cima e embaixo sobram 10px, dentro de uma barra da mesma cor de fundo, e
+   nenhum elemento encosta ali. Do lado, a distancia ate o menu e de 24px. */
+.topo__marca img {
   display: block;
-  position: relative;
-  overflow: hidden;
-  height: var(--faixa-altura);
-  width: calc(var(--faixa-altura) * 2.7798);   /* 770 / 277 */
-}
-.marca-faixa img {
-  position: absolute;
-  max-width: none;
-  left: 0;
-  width: calc(var(--faixa-altura) * 2.7798);   /* 770 / 277 */
-  height: auto;
-  top: calc(var(--faixa-altura) * -2.0758);    /* 575 / 277 */
+  width: auto;
+  height: 76px;
 }
 .topo__acoes { display: flex; align-items: center; gap: var(--e24); }
 
@@ -633,12 +620,23 @@ a { color: inherit; }
   color: var(--branco);
   padding-block: var(--e80) var(--e40);
 }
+/* Frase e marca dividem a mesma faixa. O emblema sozinho no pe do site
+   custava cerca de 400px de altura para repetir uma informacao que ja
+   estava no topo; aqui ele ocupa altura que a frase ja gastava. */
+.rodape__abertura {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: var(--e80);          /* 80px, contra os 50px de respiro exigidos */
+  padding-bottom: var(--e64);
+}
 .rodape__frase {
   font-family: var(--fonte-titulo);
   font-size: clamp(1.5rem, 4vw, 2.5rem); line-height: 1.1;
   text-transform: uppercase; letter-spacing: var(--tracking);
   max-width: 24ch;
 }
+.rodape__marca img { display: block; width: auto; height: 200px; }
 .rodape__grade {
   display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: var(--e40); padding-top: var(--e40);
@@ -648,17 +646,6 @@ a { color: inherit; }
 .rodape li { font-size: 0.9375rem; line-height: 1.7; color: var(--claro-medio); }
 .rodape a { color: var(--branco); text-decoration: none; border-bottom: 1px solid var(--borda-grafite); }
 .rodape a:hover { border-bottom-color: var(--giallo); }
-
-/* Assinatura final. O emblema a 200px, acima do minimo de 180 do manual.
-   A area de respiro vale um quarto da altura, entao 50px de cada lado:
-   por isso a margem de 64px em cima e embaixo, e nenhum fio encostando. */
-.rodape__assinatura {
-  margin-top: var(--e80);
-  padding-block: var(--e64);
-  display: flex;
-  justify-content: center;
-}
-.rodape__assinatura img { width: auto; height: 200px; }
 
 .rodape__fim {
   margin-top: 0; padding-top: var(--e24);
@@ -701,6 +688,11 @@ a { color: inherit; }
 }
 
 @media (max-width: 760px) {
+  /* No celular a barra fixa nao pode comer 96px de tela. Cai para 76px, e o
+     emblema para 58px, que ainda deixa o cao legivel num aparelho de perto. */
+  :root { --topo-altura: 76px; }
+  .topo__marca img { height: 58px; }
+
   .abre-menu { display: inline-flex; }
   .navegacao {
     position: fixed; inset: var(--topo-altura) 0 auto 0; z-index: var(--z-menu);
@@ -720,7 +712,15 @@ a { color: inherit; }
   .indice { gap: 0; }
   .ficha dd { text-align: left; }
   .rodape__fim { flex-direction: column; }
+  /* Nao cabe frase e emblema lado a lado num celular: a frase ficaria com
+     oito caracteres por linha. Empilha, e a marca segue no minimo do manual.
+     Mesmo empilhado o rodape encurtou, porque sairam os 208px de espacamento
+     que o bloco solto no pe exigia so para respirar. */
+  .rodape__abertura {
+    grid-template-columns: 1fr;
+    gap: var(--e56);        /* 56px, contra os 45px de respiro a 180px */
+    padding-bottom: var(--e48);
+  }
   /* Nunca abaixo de 180px: e o ponto em que o cao vira mancha. */
-  .rodape__assinatura img { height: 180px; }
-  .marca-faixa { --faixa-altura: 48px; }
+  .rodape__marca img { height: 180px; }
 }
