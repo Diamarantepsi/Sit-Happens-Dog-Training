@@ -91,6 +91,38 @@ interface, e **Barlow** para texto corrido, ambas do Google Fonts.
 
 A página inteira foi medida em contraste: **nenhum elemento reprova em AA**.
 
+## 4.3. Onde a logo pode e onde ela não pode aparecer
+
+Descoberto em 12/09/2026, ao dar presença de marca ao escudo no site novo.
+
+**O escudo não sobrevive em fundo escuro.** Ele foi testado em preto puro
+(`#000`) e sumiu por inteiro, cão incluído: o azul marinho dele
+(`#0d2142` a `#020811`) tem praticamente a mesma luminância do fundo, e o fio
+dourado sozinho não segura a forma. Em `#202020` o resultado é só um pouco
+melhor. Isso não é defeito do site, é a marca: ela foi desenhada para fundo
+claro e não tem versão para fundo escuro.
+
+Consequências práticas, já aplicadas:
+
+- A faixa do brasão no site é **clara** (`#f5f5f5`), encaixada entre duas
+  seções escuras, para o escudo aparecer como objeto sob luz.
+- No rodapé, que é escuro, o escudo vai montado numa **chapa clara**, como
+  distintivo aparafusado. Sem a chapa ele desaparece.
+- No topo ele aparece a 42px, e a 42px **a faixa com o nome é ilegível**.
+  Por isso o nome está escrito ao lado, em texto. O escudo ali serve para
+  reconhecimento, não para leitura.
+- Na faixa do brasão não existe botão amarelo. O dourado do escudo e o
+  `#ffc000` do sistema brigariam pela mesma atenção na mesma tela.
+
+Isso reforça a pendência do redesenho manual já descrita na seção 4: uma
+versão em uma cor só resolveria fundo escuro, bordado, gravação e papelaria
+de uma vez.
+
+**Peso dos arquivos.** `logo.png` tem 770x852 e **780 KB**, tamanho certo para
+a faixa do brasão em tela retina, mas pesado. Comprimir ou gerar um WebP
+derrubaria isso para algo perto de 150 KB. Ainda não foi feito: não há
+ferramenta de imagem instalada nesta máquina.
+
 ## 5. O que já está resolvido e não precisa de ação
 
 - Número de WhatsApp: 11 97667-2133, configurado na constante `WHATSAPP` no topo de `js/site.js`.

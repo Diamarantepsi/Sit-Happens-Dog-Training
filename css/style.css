@@ -179,10 +179,16 @@ a { color: inherit; }
   display: flex; align-items: center; justify-content: space-between; gap: var(--e24);
 }
 .topo__marca { display: flex; align-items: center; gap: var(--e16); text-decoration: none; color: var(--branco); }
-.topo__marca img { width: 36px; height: 36px; object-fit: contain; }
+/* O escudo e mais alto que largo. Travar em quadrado achatava o cao. */
+.topo__marca img { width: auto; height: 42px; }
 .topo__marca span {
-  font-family: var(--fonte-titulo); font-size: 1rem;
+  display: flex; flex-direction: column; gap: 2px;
+  font-family: var(--fonte-titulo); font-size: 1.0625rem;
   text-transform: uppercase; letter-spacing: 0.1em; line-height: 1;
+}
+/* A faixa do escudo e ilegivel a 42px, entao quem le o nome e o texto. */
+.topo__marca small {
+  font-size: 0.625rem; letter-spacing: 0.22em; color: var(--mudo);
 }
 .topo__acoes { display: flex; align-items: center; gap: var(--e24); }
 
@@ -601,13 +607,63 @@ a { color: inherit; }
 .formulario__fim { display: flex; flex-wrap: wrap; align-items: center; gap: var(--e24); padding-top: var(--e8); }
 .formulario__nota { font-size: 0.875rem; max-width: 40ch; color: var(--claro-medio); }
 
+/* Brasao ------------------------------------------------------------------
+   A unica faixa em preto puro do site. O escudo e um objeto retratado, como
+   o distintivo na lataria: fica sobre a cor mais escura disponivel, com uma
+   luz atras, para o azul marinho dele sumir no fundo e sobrar o dourado.
+   Nesta faixa nao existe botao amarelo, senao o dourado do escudo e o
+   #ffc000 brigariam pela mesma atencao. */
+.brasao {
+  position: relative;
+  background: var(--marmore);
+  color: var(--carbono);
+  --mudo: #666666;
+  padding-block: clamp(var(--e64), 10vw, var(--e160));
+}
+.brasao__interno {
+  display: flex; flex-direction: column; align-items: center;
+  gap: var(--e40); text-align: center;
+}
+.brasao__marca { width: clamp(200px, 27vw, 360px); height: auto; }
+
+/* Visivel so para leitor de tela. */
+.vis-oculto {
+  position: absolute;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.brasao__ficha {
+  width: min(100%, 46rem);
+  display: flex; flex-wrap: wrap; justify-content: center;
+  gap: var(--e16) var(--e40);
+  padding-top: var(--e24);
+  border-top: 1px solid var(--borda-cinza);
+  font-family: var(--fonte-titulo); font-size: 0.8125rem;
+  text-transform: uppercase; letter-spacing: 0.1em;
+  color: var(--mudo);
+}
+
 /* Rodape ----------------------------------------------------------------- */
 .rodape { background: var(--carbono-fundo); color: var(--branco); padding-block: var(--e80) var(--e40); }
+.rodape__assinatura {
+  display: flex; align-items: center; gap: var(--e40);
+  margin-bottom: var(--e64);
+}
+/* No rodape o fundo e escuro, entao o escudo some. Ele vai montado numa
+   chapa clara, como distintivo aparafusado: canto reto, sem sombra. */
+.rodape__assinatura img {
+  flex: none; width: auto; height: 104px;
+  background: var(--marmore);
+  padding: var(--e16) var(--e24);
+}
 .rodape__frase {
   font-family: var(--fonte-titulo);
   font-size: clamp(1.5rem, 4vw, 2.5rem); line-height: 1.1;
   text-transform: uppercase; letter-spacing: var(--tracking);
-  max-width: 24ch; margin-bottom: var(--e64);
+  max-width: 24ch;
 }
 .rodape__grade {
   display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -678,4 +734,7 @@ a { color: inherit; }
   .indice { gap: 0; }
   .ficha dd { text-align: left; }
   .rodape__fim { flex-direction: column; }
+  .rodape__assinatura { flex-direction: column; align-items: flex-start; gap: var(--e24); }
+  .rodape__assinatura img { height: 84px; }
+  .topo__marca small { display: none; }
 }

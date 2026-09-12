@@ -77,9 +77,9 @@
 
 <header class="topo">
   <div class="topo__interno">
-    <a class="topo__marca" href="#inicio">
-      <img src="assets/logo/logo-340.png" alt="" width="36" height="36">
-      <span>Sit Happens</span>
+    <a class="topo__marca" href="#inicio" aria-label="Sit Happens Dog Training, ir para o topo">
+      <img src="assets/logo/logo-340.png" alt="" width="340" height="376" decoding="async">
+      <span>Sit Happens<small>Dog Training</small></span>
     </a>
 
     <div class="topo__acoes">
@@ -399,6 +399,33 @@
   </div>
 </section>
 
+<!-- ==================== BRASÃO ====================
+     O escudo e azul marinho com dourado. Sobre fundo escuro ele some por
+     inteiro, cao incluido: foi testado em #000 e virou um borrao. Esta
+     marca foi desenhada para fundo claro, entao a faixa dela e clara, e
+     fica entre duas secoes escuras para o escudo aparecer como um objeto
+     sob luz. Sem botao amarelo aqui: o dourado do escudo e o #ffc000
+     brigariam pela mesma atencao. -->
+<section class="brasao" aria-labelledby="brasao-nome">
+  <div class="envoltorio brasao__interno revela">
+    <img class="brasao__marca"
+         src="assets/logo/logo.png"
+         alt="Brasão da Sit Happens Dog Training: escudo azul marinho com borda dourada, duas estrelas e um cão da linhagem bully ao centro, sobre uma faixa com o nome da marca"
+         width="770" height="852" loading="lazy" decoding="async">
+
+    <!-- O nome ja esta na faixa dentro do escudo. Repetir embaixo seria
+         dizer a mesma coisa duas vezes, entao o titulo existe so para a
+         estrutura da pagina e para quem usa leitor de tela. -->
+    <h2 class="vis-oculto" id="brasao-nome">Sit Happens Dog Training</h2>
+
+    <ul class="brasao__ficha">
+      <li>Mais de 5 anos</li>
+      <li>Qualquer porte e raça</li>
+      <li>Filhotes e adultos</li>
+    </ul>
+  </div>
+</section>
+
 <!-- ==================== DEPOIMENTOS ==================== -->
 <section class="secao palco--fundo" id="depoimentos" hidden>
   <div class="envoltorio">
@@ -617,7 +644,10 @@
 
 <footer class="rodape">
   <div class="envoltorio">
-    <p class="rodape__frase">Não basta ensinar o cão. É preciso ensinar quem convive com ele.</p>
+    <div class="rodape__assinatura">
+      <img src="assets/logo/logo-340.png" alt="" width="340" height="376" loading="lazy" decoding="async">
+      <p class="rodape__frase">Não basta ensinar o cão. É preciso ensinar quem convive com ele.</p>
+    </div>
 
     <div class="rodape__grade">
       <div>
