@@ -677,6 +677,8 @@ strong { color: var(--branco); font-weight: 600; }
 }
 .depoimento blockquote { margin: 0 0 1.1rem; font-size: 1rem; color: var(--claro-medio); }
 .depoimento figcaption { font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dourado); }
+/* Um depoimento sozinho nao deve esticar a largura toda da secao. */
+.depoimentos--unico { max-width: 46rem; margin-inline: auto; }
 
 /* --------------------------------------------------------------------------
    13. Regioes

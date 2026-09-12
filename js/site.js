@@ -19,10 +19,15 @@
      Formato: { titulo: '', resumo: '', itens: ['Servico: R$ 000'] } */
   var PRECOS = [];
 
-  /* PENDENTE: depoimentos reais de clientes.
+  /* Depoimentos reais de clientes, publicados com autorizacao dos tutores.
      Enquanto o array estiver vazio, a secao fica oculta sozinha.
-     Formato: { texto: 'depoimento literal', autor: 'Nome, bairro' } */
-  var DEPOIMENTOS = [];
+     Formato: { texto: 'depoimento literal', autor: 'Assinatura' } */
+  var DEPOIMENTOS = [
+    {
+      texto: 'A gente gosta muito de você, o jeito que você trata a gente, trata o Perseu. As aulinhas com você sempre foram super tranquilas, super didáticas. Você ouve muito a gente, sempre ouviu a gente falando da nossa rotina. Vamos manter com você 100%.',
+      autor: 'Tutores do Perseu'
+    }
+  ];
 
   /* ------------------------------------------------------------------------
      UTILIDADES
@@ -198,6 +203,9 @@
       figura.appendChild(legenda);
       listaDepoimentos.appendChild(figura);
     });
+    if (DEPOIMENTOS.length === 1) {
+      listaDepoimentos.classList.add('depoimentos--unico');
+    }
     secaoDepoimentos.hidden = false;
   }
 

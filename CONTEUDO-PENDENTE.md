@@ -3,14 +3,14 @@
 Tudo que está listado aqui ficou de fora do site porque a Isis ainda não enviou.
 Nada foi inventado para preencher lacuna.
 
-Atualizado em 14 de agosto de 2026.
+Atualizado em 11 de setembro de 2026.
 
 ## 1. Trava seções inteiras do site
 
 | Item | O que está desligado hoje | Como ligar |
 |---|---|---|
 | **Valores dos serviços** | A seção de preços existe no HTML mas nasce oculta. Ela marcou preços como obrigatório no briefing, então essa é a maior lacuna do site. | Preencher o array `PRECOS` e trocar `MOSTRAR_PRECOS` para `true` no topo de `js/site.js`. |
-| **Depoimentos de clientes** | A seção de depoimentos existe mas fica oculta sozinha enquanto o array estiver vazio. Ela declarou ter prints de mensagens de clientes satisfeitos. | Transcrever os prints para o array `DEPOIMENTOS` em `js/site.js`, no formato `{ texto, autor }`. Confirmar autorização de cada pessoa antes de publicar. |
+| **Depoimentos de clientes** | Resolvido em parte: a seção já está no ar com um depoimento, dos tutores do Perseu, autorizado por eles. Faltam os demais prints que ela declarou ter. | Transcrever cada print novo para o array `DEPOIMENTOS` em `js/site.js`, no formato `{ texto, autor }`. Confirmar autorização de cada pessoa antes de publicar. Quando passar de um depoimento, a classe `depoimentos--unico` deixa de ser aplicada e a grade volta a distribuir os cartões. |
 | **Links de redes sociais** | O rodapé tem só o formulário e o WhatsApp. Não há Instagram nem qualquer outra rede. | Enviar as URLs. Entram na lista de contato do rodapé. |
 
 ## 2. Enfraquece páginas que já estão no ar
@@ -45,5 +45,6 @@ Nenhuma destas trava o site, mas todas apareceram no briefing e merecem resposta
 - Como ela é chamada: **Isis**, só o primeiro nome, em todo o site, exatamente como ela respondeu no briefing. Chegou-se a testar a versão com sobrenome e ela foi descartada. Não trocar para "Isis Ribas" sem nova instrução.
 - Sete vídeos de atendimento, otimizados e com pôster.
 - Autorização de imagem dos tutores: ela declarou no briefing que todos autorizaram.
+- Assinatura dos depoimentos: por pedido do cliente, assina-se pelo cão, no formato **Tutores do Perseu**, sem bairro. O formato antigo "Nome, bairro" foi descartado. A transcrição bruta de cada áudio fica em `originais/`, que está no .gitignore e não sobe para o GitHub.
 - Mapa das regiões: ela respondeu que prefere decidir depois, então o site lista os quatorze bairros em texto e não tem mapa.
 - Agendamento automático: ela recusou, e o formulário abre o WhatsApp em vez de marcar horário.
