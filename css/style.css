@@ -381,19 +381,139 @@ a { color: inherit; }
   text-transform: uppercase; letter-spacing: 0.1em; color: var(--mudo);
 }
 
-/* Depoimentos ------------------------------------------------------------ */
-.depoimentos { display: grid; gap: var(--e40); }
-.depoimentos--unico { max-width: 52rem; }
-.depoimento { margin: 0; padding-top: var(--e32); border-top: 2px solid currentColor; }
-.depoimento blockquote {
-  margin: 0 0 var(--e24);
-  font-family: var(--fonte-titulo);
-  font-size: clamp(1.25rem, 2.6vw, 2rem); line-height: 1.2;
-  text-transform: uppercase; letter-spacing: var(--tracking);
+/* Depoimentos, no formato de conversa de WhatsApp -------------------------
+   Regra desta secao: DENTRO da tela vale o desenho do WhatsApp, com verde,
+   balao arredondado e a sombrinha dele. FORA do aparelho valem as regras
+   do site: caixa alta, zero arredondamento, separacao por fio. O aparelho
+   e um objeto retratado, nao um componente da marca, entao mantem o canto
+   redondo. */
+.depoimentos { display: grid; gap: var(--e160); }
+
+/* Trecho ampliado a esquerda, aparelho a direita. */
+.depoimento-par {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 420px);
+  gap: var(--e80);
+  align-items: center;
 }
-.depoimento figcaption {
+.depoimento-destaque { margin: 0; }
+.depoimento-destaque p {
+  font-family: var(--fonte-titulo);
+  font-size: clamp(1.5rem, 3.6vw, 2.75rem);
+  line-height: 1.12;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking);
+  color: var(--branco);
+  text-wrap: balance;
+}
+.depoimento-destaque cite {
+  display: block;
+  margin-top: var(--e24);
+  padding-top: var(--e24);
+  border-top: 1px solid var(--borda-grafite);
+  font-family: var(--fonte-titulo); font-style: normal;
+  font-size: 0.8125rem;
+  text-transform: uppercase; letter-spacing: 0.1em;
+  color: var(--mudo);
+}
+
+.wa-print { margin: 0; width: 100%; max-width: 420px; justify-self: end; }
+
+/* Moldura do aparelho. Sem sombra: quem separa do fundo e o fio. */
+.wa-fone {
+  border-radius: 30px;
+  overflow: hidden;
+  background: #e9e4dd;
+  border: 8px solid #0a0a0a;
+  outline: 1px solid var(--borda-grafite);
+}
+
+/* Barra de topo do WhatsApp */
+.wa-topo {
+  display: flex; align-items: center; gap: 0.7rem;
+  background: #075e54; color: #ffffff;
+  padding: 0.85rem 0.9rem;
+  font-family: var(--fonte-corpo);
+}
+.wa-topo__voltar { flex: none; opacity: 0.9; }
+.wa-avatar {
+  flex: none; width: 40px; height: 40px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: #ffffff; color: #075e54;
+}
+.wa-topo__info { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; line-height: 1.2; }
+.wa-nome {
+  font-weight: 600; font-size: 1rem; color: #ffffff;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.wa-topo__acoes { flex: none; display: flex; gap: 1rem; opacity: 0.92; }
+
+/* Corpo da conversa */
+.wa-corpo {
+  padding: 1.1rem 0.85rem 1.4rem;
+  background-color: #d9d2c7;
+  background-image:
+    radial-gradient(rgba(32, 32, 32, 0.05) 1.1px, transparent 1.1px),
+    radial-gradient(rgba(32, 32, 32, 0.05) 1.1px, transparent 1.1px);
+  background-position: 0 0, 13px 13px;
+  background-size: 26px 26px;
+  display: flex; flex-direction: column; gap: 0.75rem;
+  font-family: var(--fonte-corpo);
+}
+
+/* Balao de mensagem recebida */
+.wa-balao {
+  position: relative;
+  align-self: flex-start;
+  max-width: 92%;
+  padding: 0.6rem 0.7rem;
+  border-radius: 10px; border-top-left-radius: 2px;
+  background: #ffffff;
+  font-size: 0.9rem; line-height: 1.5; color: #0b1c2e;
+  box-shadow: 0 1px 1.5px rgba(0, 0, 0, 0.18);
+}
+.wa-balao--com-hora { padding-bottom: 1.2rem; }
+.wa-balao::before {
+  content: ""; position: absolute; top: 0; left: -8px;
+  width: 8px; height: 13px; background: #ffffff;
+  clip-path: polygon(100% 0, 0 0, 100% 100%);
+}
+
+/* Player de audio */
+.wa-audio { display: flex; align-items: center; gap: 0.55rem; padding: 0.15rem 0.1rem 0.55rem; }
+.wa-audio__foto {
+  flex: none; width: 42px; height: 42px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: #075e54; color: #ffffff;
+}
+.wa-audio__play { flex: none; width: 26px; height: 26px; display: grid; place-items: center; color: #54656f; }
+.wa-audio__onda { flex: 1 1 auto; display: flex; align-items: center; gap: 2px; height: 26px; }
+.wa-audio__onda i { flex: 1 1 auto; min-width: 2px; border-radius: 2px; background: #adb7bd; }
+.wa-audio__onda i:nth-child(-n + 6) { background: #34b7f1; }
+.wa-audio__tempo { flex: none; font-size: 0.72rem; color: #667781; font-variant-numeric: tabular-nums; }
+
+/* Transcricao dentro do balao */
+.wa-transcricao { border-top: 1px solid #eceff1; padding-top: 0.6rem; }
+.wa-transcricao__rotulo {
+  display: inline-flex; align-items: center; gap: 0.3rem;
+  font-size: 0.7rem; font-weight: 600; letter-spacing: 0.04em;
+  text-transform: uppercase; color: #075e54;
+  margin-bottom: 0.4rem;
+}
+.wa-transcricao p { margin: 0 0 0.6rem; color: #1c2b3a; }
+.wa-transcricao p:last-child { margin-bottom: 0; }
+
+.wa-hora {
+  position: absolute; right: 0.7rem; bottom: 0.5rem;
+  font-size: 0.66rem; color: #667781; font-variant-numeric: tabular-nums;
+}
+
+/* A legenda ja esta fora do aparelho, entao volta a obedecer o site. */
+.wa-print__legenda {
+  margin-top: var(--e24);
   font-family: var(--fonte-titulo); font-size: 0.8125rem;
-  text-transform: uppercase; letter-spacing: 0.1em; color: var(--mudo);
+  text-transform: uppercase; letter-spacing: 0.1em;
+  color: var(--mudo);
 }
 
 /* Regioes e duvidas ------------------------------------------------------ */
@@ -533,6 +653,9 @@ a { color: inherit; }
 @media (max-width: 960px) {
   .isis-grade, .contato-grade, .onde-grade { grid-template-columns: 1fr; gap: var(--e48); }
   .heroi__texto { max-width: 100%; }
+  .depoimento-par { grid-template-columns: 1fr; gap: var(--e48); }
+  .wa-print { justify-self: start; }
+  .depoimentos { gap: var(--e80); }
 }
 
 @media (max-width: 760px) {

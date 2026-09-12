@@ -13,14 +13,40 @@
   var WHATSAPP = '5511976672133';
 
   /* Depoimentos reais de clientes, publicados com autorizacao dos tutores.
+     Cada item vira uma tela de WhatsApp dentro de um aparelho.
      Enquanto o array estiver vazio, a secao fica oculta sozinha.
-     Formato: { texto: 'depoimento literal', autor: 'Assinatura' } */
+
+     Campos:
+       autor      nome que aparece no topo da conversa
+       formato    'audio' mostra o player e o rotulo de transcricao.
+                  'texto' mostra so os paragrafos, como mensagem escrita.
+       duracao    duracao real do audio, tipo '2:30'. Vazio nao desenha nada.
+       hora       horario real da mensagem, tipo '08:47'. Vazio nao desenha.
+       legenda    linha abaixo do aparelho
+       paragrafos o depoimento, um paragrafo por item
+
+     duracao e hora ficam vazios de proposito enquanto os valores reais nao
+     forem confirmados. O site nao inventa detalhe de uma mensagem real. */
   var DEPOIMENTOS = [
     {
-      texto: 'A gente gosta muito de você, o jeito que você trata a gente, trata o Perseu. As aulinhas com você sempre foram super tranquilas, super didáticas. Você ouve muito a gente, sempre ouviu a gente falando da nossa rotina. Vamos manter com você 100%.',
-      autor: 'Tutores do Perseu'
+      autor: 'Tutores do Perseu',
+      formato: 'audio',
+      duracao: '',
+      hora: '',
+      legenda: 'Depoimento recebido por áudio no WhatsApp.',
+      /* Trecho literal do proprio depoimento, ampliado ao lado do aparelho. */
+      destaque: 'Você ouve muito a gente, sempre ouviu a gente falando da nossa rotina.',
+      paragrafos: [
+        'A gente gosta muito de você, o jeito que você trata a gente, trata o Perseu. Sempre foi tudo com você que a gente preferia conversar.',
+        'As aulinhas que a gente fez com você sempre foram super tranquilas, super didáticas. Você ouve muito a gente, sempre ouviu a gente falando da nossa rotina, do jeito que a gente trata o Perseu quando vai passear.',
+        'Vamos manter com você 100%. Tenho certeza que vai dar certo, pode contar com a gente.'
+      ]
     }
   ];
+
+  /* Alturas fixas das barrinhas do audio. Fixas, e nao sorteadas, para o
+     desenho nao mudar a cada carregamento. */
+  var ONDA = [40, 70, 100, 55, 85, 35, 65, 95, 50, 75, 30, 60, 90, 45, 70, 40, 80, 55, 35, 65];
 
   /* ------------------------------------------------------------------------
      UTILIDADES
@@ -189,20 +215,121 @@
   var secaoDepoimentos = $('#depoimentos');
   var listaDepoimentos = $('#lista-depoimentos');
 
+  /* Icones da tela do WhatsApp. Sao enfeite, entao saem do fluxo de leitura. */
+  var ICONE_PATA = '<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5.5 12.5a2 2 0 100-4 2 2 0 000 4zm4-4a2 2 0 100-4 2 2 0 000 4zm5 0a2 2 0 100-4 2 2 0 000 4zm4 4a2 2 0 100-4 2 2 0 000 4zm-6.5 1.2c-2.6 0-4.7 2.2-4.7 4.1 0 1.2.9 2 2.1 2 .9 0 1.7-.4 2.6-.4.9 0 1.7.4 2.6.4 1.2 0 2.1-.8 2.1-2 0-1.9-2.1-4.1-4.7-4.1z"/></svg>';
+
+  function montaAparelho(item) {
+    var ehAudio = item.formato === 'audio';
+
+    var figura = document.createElement('figure');
+    figura.className = 'wa-print';
+
+    var fone = document.createElement('div');
+    fone.className = 'wa-fone';
+
+    /* Barra de topo. Nada aqui e conteudo, so a moldura da cena. */
+    var topo = document.createElement('div');
+    topo.className = 'wa-topo';
+    topo.innerHTML =
+      '<svg class="wa-topo__voltar" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>' +
+      '<span class="wa-avatar" aria-hidden="true">' + ICONE_PATA + '</span>' +
+      '<div class="wa-topo__info"><span class="wa-nome"></span></div>' +
+      '<div class="wa-topo__acoes" aria-hidden="true">' +
+      '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>' +
+      '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3 19.5 19.5 0 01-6-6 19.8 19.8 0 01-3-8.6A2 2 0 014.1 2h3a2 2 0 012 1.7c.1 1 .3 1.9.6 2.8a2 2 0 01-.4 2.1L8 9.6a16 16 0 006 6l1-1a2 2 0 012.1-.4c.9.3 1.8.5 2.8.6a2 2 0 011.7 2.1z"/></svg>' +
+      '</div>';
+    /* O nome entra como texto, nunca como marcacao. */
+    $('.wa-nome', topo).textContent = item.autor;
+    fone.appendChild(topo);
+
+    var corpo = document.createElement('div');
+    corpo.className = 'wa-corpo';
+
+    var balao = document.createElement('div');
+    balao.className = 'wa-balao' + (item.hora ? ' wa-balao--com-hora' : '');
+
+    if (ehAudio) {
+      var barras = ONDA.map(function (altura) {
+        return '<i style="height:' + altura + '%"></i>';
+      }).join('');
+
+      var audio = document.createElement('div');
+      audio.className = 'wa-audio';
+      audio.innerHTML =
+        '<span class="wa-audio__foto" aria-hidden="true">' + ICONE_PATA + '</span>' +
+        '<span class="wa-audio__play" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>' +
+        '<span class="wa-audio__onda" aria-hidden="true">' + barras + '</span>';
+
+      if (item.duracao) {
+        var tempo = document.createElement('span');
+        tempo.className = 'wa-audio__tempo';
+        tempo.textContent = item.duracao;
+        audio.appendChild(tempo);
+      }
+      balao.appendChild(audio);
+    }
+
+    var transcricao = document.createElement('div');
+    transcricao.className = 'wa-transcricao';
+
+    if (ehAudio) {
+      var rotulo = document.createElement('span');
+      rotulo.className = 'wa-transcricao__rotulo';
+      rotulo.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 5h16v2H4zm0 4h16v2H4zm0 4h11v2H4zm0 4h11v2H4z"/></svg>';
+      rotulo.appendChild(document.createTextNode('Trechos do áudio'));
+      transcricao.appendChild(rotulo);
+    }
+
+    item.paragrafos.forEach(function (texto) {
+      var p = document.createElement('p');
+      p.textContent = texto;
+      transcricao.appendChild(p);
+    });
+    balao.appendChild(transcricao);
+
+    if (item.hora) {
+      var hora = document.createElement('span');
+      hora.className = 'wa-hora';
+      hora.textContent = item.hora;
+      balao.appendChild(hora);
+    }
+
+    corpo.appendChild(balao);
+    fone.appendChild(corpo);
+    figura.appendChild(fone);
+
+    if (item.legenda) {
+      var legenda = document.createElement('figcaption');
+      legenda.className = 'wa-print__legenda';
+      legenda.textContent = item.legenda;
+      figura.appendChild(legenda);
+    }
+
+    return figura;
+  }
+
   if (secaoDepoimentos && listaDepoimentos && DEPOIMENTOS.length) {
     DEPOIMENTOS.forEach(function (item) {
-      var figura = document.createElement('figure');
-      figura.className = 'depoimento';
+      var par = document.createElement('div');
+      par.className = 'depoimento-par';
 
-      var citacao = document.createElement('blockquote');
-      citacao.textContent = item.texto;
+      if (item.destaque) {
+        var destaque = document.createElement('blockquote');
+        destaque.className = 'depoimento-destaque';
 
-      var legenda = document.createElement('figcaption');
-      legenda.textContent = item.autor;
+        var frase = document.createElement('p');
+        frase.textContent = item.destaque;
 
-      figura.appendChild(citacao);
-      figura.appendChild(legenda);
-      listaDepoimentos.appendChild(figura);
+        var quem = document.createElement('cite');
+        quem.textContent = item.autor;
+
+        destaque.appendChild(frase);
+        destaque.appendChild(quem);
+        par.appendChild(destaque);
+      }
+
+      par.appendChild(montaAparelho(item));
+      listaDepoimentos.appendChild(par);
     });
 
     if (DEPOIMENTOS.length === 1) {
