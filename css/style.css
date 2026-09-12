@@ -178,17 +178,34 @@ a { color: inherit; }
   padding-inline: var(--gutter);
   display: flex; align-items: center; justify-content: space-between; gap: var(--e24);
 }
-.topo__marca { display: flex; align-items: center; gap: var(--e16); text-decoration: none; color: var(--branco); }
-/* O escudo e mais alto que largo. Travar em quadrado achatava o cao. */
-.topo__marca img { width: auto; height: 42px; }
-.topo__marca span {
-  display: flex; flex-direction: column; gap: 2px;
-  font-family: var(--fonte-titulo); font-size: 1.0625rem;
-  text-transform: uppercase; letter-spacing: 0.1em; line-height: 1;
+.topo__marca { display: flex; align-items: center; text-decoration: none; }
+
+/* FAIXA COM O NOME
+   A variacao secundaria da marca e, segundo o manual, o recorte inferior
+   da propria arte, sem o escudo. So existe um arquivo, entao o recorte e
+   feito aqui: a imagem inteira e ampliada dentro de uma janela que mostra
+   apenas a faixa. Isso nao recolore, nao deforma e nao gira nada, porque
+   largura e altura crescem juntas.
+
+   Medidas medidas no proprio arquivo, varrendo o canal alfa: as abas da
+   fita comecam em y=575 e a arte desce ate a base, ocupando a largura
+   inteira do PNG. Logo o recorte e so vertical, de 575 a 852, com os
+   770px de largura inteiros: 277 de altura. */
+.marca-faixa {
+  --faixa-altura: 56px;
+  display: block;
+  position: relative;
+  overflow: hidden;
+  height: var(--faixa-altura);
+  width: calc(var(--faixa-altura) * 2.7798);   /* 770 / 277 */
 }
-/* A faixa do escudo e ilegivel a 42px, entao quem le o nome e o texto. */
-.topo__marca small {
-  font-size: 0.625rem; letter-spacing: 0.22em; color: var(--mudo);
+.marca-faixa img {
+  position: absolute;
+  max-width: none;
+  left: 0;
+  width: calc(var(--faixa-altura) * 2.7798);   /* 770 / 277 */
+  height: auto;
+  top: calc(var(--faixa-altura) * -2.0758);    /* 575 / 277 */
 }
 .topo__acoes { display: flex; align-items: center; gap: var(--e24); }
 
@@ -607,57 +624,14 @@ a { color: inherit; }
 .formulario__fim { display: flex; flex-wrap: wrap; align-items: center; gap: var(--e24); padding-top: var(--e8); }
 .formulario__nota { font-size: 0.875rem; max-width: 40ch; color: var(--claro-medio); }
 
-/* Brasao ------------------------------------------------------------------
-   A unica faixa em preto puro do site. O escudo e um objeto retratado, como
-   o distintivo na lataria: fica sobre a cor mais escura disponivel, com uma
-   luz atras, para o azul marinho dele sumir no fundo e sobrar o dourado.
-   Nesta faixa nao existe botao amarelo, senao o dourado do escudo e o
-   #ffc000 brigariam pela mesma atencao. */
-.brasao {
-  position: relative;
-  background: var(--marmore);
-  color: var(--carbono);
-  --mudo: #666666;
-  padding-block: clamp(var(--e64), 10vw, var(--e160));
-}
-.brasao__interno {
-  display: flex; flex-direction: column; align-items: center;
-  gap: var(--e40); text-align: center;
-}
-.brasao__marca { width: clamp(200px, 27vw, 360px); height: auto; }
-
-/* Visivel so para leitor de tela. */
-.vis-oculto {
-  position: absolute;
-  width: 1px; height: 1px;
-  margin: -1px; padding: 0;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
-}
-.brasao__ficha {
-  width: min(100%, 46rem);
-  display: flex; flex-wrap: wrap; justify-content: center;
-  gap: var(--e16) var(--e40);
-  padding-top: var(--e24);
-  border-top: 1px solid var(--borda-cinza);
-  font-family: var(--fonte-titulo); font-size: 0.8125rem;
-  text-transform: uppercase; letter-spacing: 0.1em;
-  color: var(--mudo);
-}
-
 /* Rodape ----------------------------------------------------------------- */
-.rodape { background: var(--carbono-fundo); color: var(--branco); padding-block: var(--e80) var(--e40); }
-.rodape__assinatura {
-  display: flex; align-items: center; gap: var(--e40);
-  margin-bottom: var(--e64);
-}
-/* No rodape o fundo e escuro, entao o escudo some. Ele vai montado numa
-   chapa clara, como distintivo aparafusado: canto reto, sem sombra. */
-.rodape__assinatura img {
-  flex: none; width: auto; height: 104px;
-  background: var(--marmore);
-  padding: var(--e16) var(--e24);
+/* O rodape usa o azul quase preto da propria marca, que o manual permite.
+   Sobre o carbono neutro do resto do site o emblema desaparecia, e a
+   solucao anterior, uma chapa clara atras dele, e uso proibido. */
+.rodape {
+  background: #010a1b;
+  color: var(--branco);
+  padding-block: var(--e80) var(--e40);
 }
 .rodape__frase {
   font-family: var(--fonte-titulo);
@@ -674,8 +648,20 @@ a { color: inherit; }
 .rodape li { font-size: 0.9375rem; line-height: 1.7; color: var(--claro-medio); }
 .rodape a { color: var(--branco); text-decoration: none; border-bottom: 1px solid var(--borda-grafite); }
 .rodape a:hover { border-bottom-color: var(--giallo); }
+
+/* Assinatura final. O emblema a 200px, acima do minimo de 180 do manual.
+   A area de respiro vale um quarto da altura, entao 50px de cada lado:
+   por isso a margem de 64px em cima e embaixo, e nenhum fio encostando. */
+.rodape__assinatura {
+  margin-top: var(--e80);
+  padding-block: var(--e64);
+  display: flex;
+  justify-content: center;
+}
+.rodape__assinatura img { width: auto; height: 200px; }
+
 .rodape__fim {
-  margin-top: var(--e64); padding-top: var(--e24);
+  margin-top: 0; padding-top: var(--e24);
   border-top: 1px solid var(--borda-grafite);
   display: flex; flex-wrap: wrap; gap: var(--e16); justify-content: space-between;
   font-family: var(--fonte-titulo); font-size: 0.75rem;
@@ -734,7 +720,7 @@ a { color: inherit; }
   .indice { gap: 0; }
   .ficha dd { text-align: left; }
   .rodape__fim { flex-direction: column; }
-  .rodape__assinatura { flex-direction: column; align-items: flex-start; gap: var(--e24); }
-  .rodape__assinatura img { height: 84px; }
-  .topo__marca small { display: none; }
+  /* Nunca abaixo de 180px: e o ponto em que o cao vira mancha. */
+  .rodape__assinatura img { height: 180px; }
+  .marca-faixa { --faixa-altura: 48px; }
 }

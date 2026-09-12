@@ -1,9 +1,10 @@
 # So o site vai para o ar. Tudo que e material de trabalho fica fora.
 # Ate 11/09/2026 o briefing e o CSV de respostas estavam publicos por engano.
 
-# Briefing, respostas da Isis e notas internas
+# Briefing, respostas da Isis, manual da marca e notas internas
 *.csv
 *.md
+*.pdf
 originais/
 
 # Midia bruta do WhatsApp. O site usa o que esta em assets/video, ja otimizado.

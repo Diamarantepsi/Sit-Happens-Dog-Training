@@ -91,37 +91,41 @@ interface, e **Barlow** para texto corrido, ambas do Google Fonts.
 
 A página inteira foi medida em contraste: **nenhum elemento reprova em AA**.
 
-## 4.3. Onde a logo pode e onde ela não pode aparecer
+## 4.3. Uso da logomarca, conforme o manual
 
-Descoberto em 12/09/2026, ao dar presença de marca ao escudo no site novo.
+**Existe manual de marca.** `Símbolo sem cão aprovado.pdf`, na raiz do projeto,
+com quatro variações, fundos permitidos, tamanho mínimo, área de respiro, usos
+proibidos e uma tabela de qual variação usar em cada peça. Ele fica fora do ar
+pelo `.vercelignore`, junto com o briefing.
 
-**O escudo não sobrevive em fundo escuro.** Ele foi testado em preto puro
-(`#000`) e sumiu por inteiro, cão incluído: o azul marinho dele
-(`#0d2142` a `#020811`) tem praticamente a mesma luminância do fundo, e o fio
-dourado sozinho não segura a forma. Em `#202020` o resultado é só um pouco
-melhor. Isso não é defeito do site, é a marca: ela foi desenhada para fundo
-claro e não tem versão para fundo escuro.
+O que o manual determina, e que o site passou a seguir em 12/09/2026:
 
-Consequências práticas, já aplicadas:
+| Regra | Como o site cumpre |
+|---|---|
+| Cabeçalho de site usa a **faixa com o nome**, 48 a 64px, à esquerda | Topo usa a faixa a 56px, 48px no celular |
+| Emblema completo exige **180px de altura no mínimo** | Rodapé usa 200px, 180px no celular |
+| Fundos permitidos: `#0E2447`, `#010A1B`, `#FFFFFF`. Meio tom estraga | Rodapé virou `#010A1B` |
+| **Sem caixa**: nunca colar retângulo branco em volta | A chapa clara que existia no rodapé foi removida |
+| **Não encostar texto** na área de respiro, que vale 1/4 da altura | 144px acima e 64px abaixo do emblema, contra 50px exigidos |
+| Nunca recolorir, deformar, girar, nem aplicar efeito | Nenhum filtro, sombra ou contorno em nenhuma aplicação |
+| Ícone quadrado só para favicon e foto de perfil | `icone-32/180/512` seguem só no favicon |
 
-- A faixa do brasão no site é **clara** (`#f5f5f5`), encaixada entre duas
-  seções escuras, para o escudo aparecer como objeto sob luz.
-- No rodapé, que é escuro, o escudo vai montado numa **chapa clara**, como
-  distintivo aparafusado. Sem a chapa ele desaparece.
-- No topo ele aparece a 42px, e a 42px **a faixa com o nome é ilegível**.
-  Por isso o nome está escrito ao lado, em texto. O escudo ali serve para
-  reconhecimento, não para leitura.
-- Na faixa do brasão não existe botão amarelo. O dourado do escudo e o
-  `#ffc000` do sistema brigariam pela mesma atenção na mesma tela.
+**Sobre a faixa com o nome.** Só existe um arquivo de arte, o PNG 770x852, e o
+manual define a faixa como o recorte inferior dele. O recorte é feito em CSS,
+numa janela com `overflow: hidden`, ampliando a arte proporcionalmente: não
+recolore, não deforma e não gira. As medidas vieram de uma varredura do canal
+alfa do próprio arquivo: as abas da fita começam em `y=575` e a arte desce até
+a base, ocupando a largura inteira. Se a arte for trocada, esses números em
+`css/style.css`, no bloco `.marca-faixa`, precisam ser remedidos.
 
-Isso reforça a pendência do redesenho manual já descrita na seção 4: uma
-versão em uma cor só resolveria fundo escuro, bordado, gravação e papelaria
-de uma vez.
+**A faixa dedicada só para exibir a logo foi removida.** Ela existiu por algumas
+horas em 12/09/2026 e saiu a pedido do cliente: a marca não precisa de uma seção
+própria, precisa estar bem colocada no fecho do site.
 
-**Peso dos arquivos.** `logo.png` tem 770x852 e **780 KB**, tamanho certo para
-a faixa do brasão em tela retina, mas pesado. Comprimir ou gerar um WebP
-derrubaria isso para algo perto de 150 KB. Ainda não foi feito: não há
-ferramenta de imagem instalada nesta máquina.
+**Peso do arquivo.** `logo.png` tem 770x852 e **780 KB**, e agora é usado no topo
+e no rodapé, então é baixado uma vez só. Comprimir ou gerar um WebP derrubaria
+para perto de 150 KB. Não foi feito: não há ferramenta de imagem instalada nesta
+máquina.
 
 ## 5. O que já está resolvido e não precisa de ação
 
