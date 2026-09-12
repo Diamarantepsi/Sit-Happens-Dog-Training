@@ -12,13 +12,6 @@
   /* WhatsApp da Isis, formato internacional, so numeros. */
   var WHATSAPP = '5511976672133';
 
-  /* Ligue para true quando a Isis enviar a tabela de valores. */
-  var MOSTRAR_PRECOS = false;
-
-  /* PENDENTE: valores dos servicos. Preencha e ligue MOSTRAR_PRECOS.
-     Formato: { titulo: '', resumo: '', itens: ['Servico: R$ 000'] } */
-  var PRECOS = [];
-
   /* Depoimentos reais de clientes, publicados com autorizacao dos tutores.
      Enquanto o array estiver vazio, a secao fica oculta sozinha.
      Formato: { texto: 'depoimento literal', autor: 'Assinatura' } */
@@ -40,16 +33,10 @@
   var menosMovimento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ------------------------------------------------------------------------
-     TOPO: estado ao rolar e menu de telas pequenas
+     MENU DE TELAS PEQUENAS
      ------------------------------------------------------------------------ */
-  var topo = $('#topo');
   var botaoMenu = $('#abre-menu');
   var navegacao = $('#navegacao');
-
-  function atualizaTopo() {
-    if (!topo) { return; }
-    topo.classList.toggle('topo--rolado', window.scrollY > 24);
-  }
 
   function fechaMenu() {
     if (!navegacao || !botaoMenu) { return; }
@@ -74,41 +61,27 @@
   }
 
   /* ------------------------------------------------------------------------
-     LINK ATIVO NA NAVEGACAO
-     ------------------------------------------------------------------------ */
-  var linksNavegacao = $$('#navegacao a[href^="#"]').filter(function (link) {
-    return link.getAttribute('href').length > 1 && !link.classList.contains('botao');
-  });
-  var secoesObservadas = linksNavegacao
-    .map(function (link) { return document.querySelector(link.getAttribute('href')); })
-    .filter(Boolean);
-
-  if ('IntersectionObserver' in window && secoesObservadas.length) {
-    var vigia = new IntersectionObserver(function (entradas) {
-      entradas.forEach(function (entrada) {
-        if (!entrada.isIntersecting) { return; }
-        linksNavegacao.forEach(function (link) {
-          var alvo = link.getAttribute('href') === '#' + entrada.target.id;
-          if (alvo) {
-            link.setAttribute('aria-current', 'true');
-          } else {
-            link.removeAttribute('aria-current');
-          }
-        });
-      });
-    }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
-
-    secoesObservadas.forEach(function (secao) { vigia.observe(secao); });
-  }
-
-  /* ------------------------------------------------------------------------
      REVELACAO AO ROLAR
+     O conteudo nasce visivel no CSS. A classe .js e quem liga a animacao,
+     entao um navegador sem JS, ou um leitor que nunca dispara o observador,
+     continua vendo a pagina inteira.
      ------------------------------------------------------------------------ */
-  var revelaveis = $$('.revela');
-  if (menosMovimento || !('IntersectionObserver' in window)) {
-    revelaveis.forEach(function (elemento) { elemento.classList.add('revela--visivel'); });
-  } else {
-    var vigiaRevela = new IntersectionObserver(function (entradas, observador) {
+  function ligaRevelacao() {
+    var revelaveis = $$('.revela');
+
+    /* Cada filho de um bloco escalonado recebe seu proprio atraso. */
+    $$('.revela--escalonado').forEach(function (bloco) {
+      Array.prototype.forEach.call(bloco.children, function (filho, indice) {
+        filho.style.setProperty('--i', indice);
+      });
+    });
+
+    if (menosMovimento || !('IntersectionObserver' in window)) {
+      revelaveis.forEach(function (elemento) { elemento.classList.add('revela--visivel'); });
+      return;
+    }
+
+    var vigia = new IntersectionObserver(function (entradas, observador) {
       entradas.forEach(function (entrada) {
         if (!entrada.isIntersecting) { return; }
         entrada.target.classList.add('revela--visivel');
@@ -116,27 +89,53 @@
       });
     }, { rootMargin: '0px 0px -8% 0px', threshold: 0.06 });
 
-    revelaveis.forEach(function (elemento) { vigiaRevela.observe(elemento); });
+    revelaveis.forEach(function (elemento) { vigia.observe(elemento); });
+
+    /* Rede de seguranca: o que continuar escondido depois de 3s aparece. */
+    window.setTimeout(function () {
+      revelaveis.forEach(function (elemento) {
+        if (elemento.getBoundingClientRect().top < window.innerHeight) {
+          elemento.classList.add('revela--visivel');
+        }
+      });
+    }, 3000);
   }
 
   /* ------------------------------------------------------------------------
-     VIDEO DE ABERTURA
-     Carrega apenas depois da pagina pronta, e nunca com menos movimento pedido.
+     VIDEO DA ABERTURA
+     Entra so depois que a pagina carregou, e nunca com menos movimento pedido.
+     Ate la, e depois se falhar, o poster segura a cena.
      ------------------------------------------------------------------------ */
-  var videoAbertura = $('#video-abertura');
-  if (videoAbertura && !menosMovimento) {
-    var iniciaAbertura = function () {
-      videoAbertura.load();
-      var promessa = videoAbertura.play();
-      if (promessa && typeof promessa.catch === 'function') {
-        /* Alguns navegadores recusam autoplay. O poster continua no lugar. */
-        promessa.catch(function () {});
-      }
-    };
-    if (document.readyState === 'complete') {
-      iniciaAbertura();
-    } else {
-      window.addEventListener('load', iniciaAbertura, { once: true });
+  function ligaAbertura() {
+    if (menosMovimento) { return; }
+    var palco = $('.heroi__midia');
+    var poster = $('#heroi-poster');
+    if (!palco || !poster) { return; }
+
+    var video = document.createElement('video');
+    video.muted = true;
+    video.defaultMuted = true;
+    video.loop = true;
+    video.autoplay = true;
+    video.setAttribute('playsinline', '');
+    video.setAttribute('aria-hidden', 'true');
+    video.setAttribute('tabindex', '-1');
+    video.setAttribute('preload', 'auto');
+    video.poster = poster.getAttribute('src');
+    video.src = 'assets/video/abertura.mp4';
+
+    video.addEventListener('playing', function () {
+      poster.style.display = 'none';
+    });
+
+    palco.appendChild(video);
+
+    var promessa = video.play();
+    if (promessa && typeof promessa.catch === 'function') {
+      /* Alguns navegadores recusam autoplay. O poster continua no lugar. */
+      promessa.catch(function () {
+        palco.removeChild(video);
+      });
     }
   }
 
@@ -178,8 +177,9 @@
 
       cartao.classList.add('video-cartao--tocando');
       var tocando = video.play();
-      if (tocando && typeof tocando.catch === 'function') { tocando.catch(function () {}); }
-      video.focus({ preventScroll: true });
+      if (tocando && typeof tocando.catch === 'function') {
+        tocando.catch(function () {});
+      }
     });
   });
 
@@ -188,6 +188,7 @@
      ------------------------------------------------------------------------ */
   var secaoDepoimentos = $('#depoimentos');
   var listaDepoimentos = $('#lista-depoimentos');
+
   if (secaoDepoimentos && listaDepoimentos && DEPOIMENTOS.length) {
     DEPOIMENTOS.forEach(function (item) {
       var figura = document.createElement('figure');
@@ -203,6 +204,7 @@
       figura.appendChild(legenda);
       listaDepoimentos.appendChild(figura);
     });
+
     if (DEPOIMENTOS.length === 1) {
       listaDepoimentos.classList.add('depoimentos--unico');
     }
@@ -216,109 +218,28 @@
   }
 
   /* ------------------------------------------------------------------------
-     PRECOS
+     LINK DE WHATSAPP DO RODAPE
      ------------------------------------------------------------------------ */
-  var secaoPrecos = $('#precos');
-  var listaPrecos = $('#lista-precos');
-  if (secaoPrecos && listaPrecos && MOSTRAR_PRECOS && PRECOS.length) {
-    PRECOS.forEach(function (grupo, indice) {
-      var cartao = document.createElement('article');
-      cartao.className = 'frente';
-
-      var numero = document.createElement('p');
-      numero.className = 'frente__numero';
-      numero.textContent = 'Opção 0' + (indice + 1);
-
-      var titulo = document.createElement('h3');
-      titulo.textContent = grupo.titulo;
-
-      var resumo = document.createElement('p');
-      resumo.className = 'frente__resumo';
-      resumo.textContent = grupo.resumo || '';
-
-      var lista = document.createElement('ul');
-      (grupo.itens || []).forEach(function (texto) {
-        var item = document.createElement('li');
-        item.textContent = texto;
-        lista.appendChild(item);
-      });
-
-      cartao.appendChild(numero);
-      cartao.appendChild(titulo);
-      cartao.appendChild(resumo);
-      cartao.appendChild(lista);
-      listaPrecos.appendChild(cartao);
-    });
-    secaoPrecos.hidden = false;
+  var linkWhatsapp = $('#link-whatsapp');
+  if (linkWhatsapp && WHATSAPP) {
+    linkWhatsapp.href = 'https://wa.me/' + WHATSAPP;
+    linkWhatsapp.target = '_blank';
+    linkWhatsapp.rel = 'noopener';
   }
-
-  /* ------------------------------------------------------------------------
-     LINK DIRETO DE WHATSAPP
-     ------------------------------------------------------------------------ */
-  var linkRodape = $('#link-whatsapp-rodape');
-  if (linkRodape) {
-    if (WHATSAPP) {
-      linkRodape.href = 'https://wa.me/' + WHATSAPP;
-      linkRodape.target = '_blank';
-      linkRodape.textContent = 'WhatsApp (11) 97667-2133';
-    } else {
-      linkRodape.closest('li').remove();
-    }
-  }
-
-  /* ------------------------------------------------------------------------
-     BOTAO FLUTUANTE
-     ------------------------------------------------------------------------ */
-  var flutuante = $('#whats-flutuante');
-  var abertura = $('#inicio');
-  var contato = $('#contato');
-
-  function atualizaFlutuante() {
-    if (!flutuante || !abertura) { return; }
-    var passouAbertura = window.scrollY > abertura.offsetHeight * 0.7;
-    var noContato = contato
-      ? contato.getBoundingClientRect().top < window.innerHeight * 0.9
-      : false;
-    flutuante.classList.toggle('whats-flutuante--visivel', passouAbertura && !noContato);
-  }
-
-  var esperandoQuadro = false;
-  window.addEventListener('scroll', function () {
-    if (esperandoQuadro) { return; }
-    esperandoQuadro = true;
-    window.requestAnimationFrame(function () {
-      atualizaTopo();
-      atualizaFlutuante();
-      esperandoQuadro = false;
-    });
-  }, { passive: true });
-
-  atualizaTopo();
-  atualizaFlutuante();
 
   /* ------------------------------------------------------------------------
      FORMULARIO
-     Monta a mensagem e abre o WhatsApp da Isis com o texto pronto.
+     Nada e enviado sozinho. O botao monta o texto e abre o WhatsApp.
      ------------------------------------------------------------------------ */
   var formulario = $('#formulario-contato');
 
   function envolucroDoCampo(elemento) {
-    return elemento.closest('[data-campo]');
+    return elemento.closest('.campo') || elemento.parentNode;
   }
 
   function marcaErro(elemento, temErro) {
-    var envolucro = envolucroDoCampo(elemento);
-    if (!envolucro) { return; }
-    envolucro.classList.toggle('campo--erro', temErro);
+    envolucroDoCampo(elemento).classList.toggle('campo--erro', temErro);
     elemento.setAttribute('aria-invalid', temErro ? 'true' : 'false');
-    var erro = $('.campo__erro', envolucro);
-    if (erro && erro.id) {
-      if (temErro) {
-        elemento.setAttribute('aria-describedby', erro.id);
-      } else {
-        elemento.removeAttribute('aria-describedby');
-      }
-    }
   }
 
   function telefoneValido(valor) {
@@ -386,7 +307,7 @@
       var mensagem = linhas.join('\n');
 
       if (!WHATSAPP) {
-        /* PENDENTE: sem numero configurado, o site nao inventa destino. */
+        /* Sem numero configurado, o site nao inventa destino. */
         window.alert('O número de WhatsApp ainda não foi configurado neste site.');
         return;
       }
@@ -397,5 +318,16 @@
         'noopener'
       );
     });
+  }
+
+  /* ------------------------------------------------------------------------
+     PARTIDA
+     ------------------------------------------------------------------------ */
+  ligaRevelacao();
+
+  if (document.readyState === 'complete') {
+    ligaAbertura();
+  } else {
+    window.addEventListener('load', ligaAbertura);
   }
 })();

@@ -17,3 +17,6 @@ _teste-*.html
 
 .vercel
 .env*
+
+# Copias locais feitas antes de reescritas grandes.
+*.bak

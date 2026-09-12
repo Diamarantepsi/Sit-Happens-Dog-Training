@@ -9,7 +9,7 @@ Atualizado em 11 de setembro de 2026.
 
 | Item | O que está desligado hoje | Como ligar |
 |---|---|---|
-| **Valores dos serviços** | A seção de preços existe no HTML mas nasce oculta. Ela marcou preços como obrigatório no briefing, então essa é a maior lacuna do site. | Preencher o array `PRECOS` e trocar `MOSTRAR_PRECOS` para `true` no topo de `js/site.js`. |
+| **Valores dos serviços** | **A seção de preços não existe mais no HTML.** Ela foi removida no redesenho de 11/09/2026, junto com o array `PRECOS` e a chave `MOSTRAR_PRECOS`, porque estava oculta desde agosto e o pedido era enxugar o site. Ela marcou preços como obrigatório no briefing, então continua sendo a maior lacuna. | Quando a Isis mandar a tabela, os valores entram como uma `dl.ficha` dentro da seção **O trabalho**, no mesmo formato da ficha técnica da Isis. Não é preciso recriar a seção antiga. |
 | **Depoimentos de clientes** | Resolvido em parte: a seção já está no ar com um depoimento, dos tutores do Perseu, autorizado por eles. Faltam os demais prints que ela declarou ter. | Transcrever cada print novo para o array `DEPOIMENTOS` em `js/site.js`, no formato `{ texto, autor }`. Confirmar autorização de cada pessoa antes de publicar. Quando passar de um depoimento, a classe `depoimentos--unico` deixa de ser aplicada e a grade volta a distribuir os cartões. |
 | **Links de redes sociais** | O rodapé tem só o formulário e o WhatsApp. Não há Instagram nem qualquer outra rede. | Enviar as URLs. Entram na lista de contato do rodapé. |
 
@@ -57,6 +57,39 @@ internas e os vídeos brutos do WhatsApp. Até 11/09/2026 esses arquivos estavam
 
 Ligar o projeto ao repositório no painel da Vercel resolveria de vez, e cada push
 publicaria sozinho. Fica como pendência.
+
+## 4.2. O redesenho de 11 de setembro de 2026
+
+O site foi reescrito por inteiro (`index.html`, `css/style.css`, `js/site.js`) sobre a
+linguagem visual da Lamborghini, a pedido do Adriano: palco preto, um único amarelo
+`#ffc000`, tipografia industrial em caixa alta, zero arredondamento, zero sombra.
+
+**Onze seções viraram seis.** O motivo do pedido era que o conteúdo estava picado em
+lugares demais. O que foi fundido:
+
+| Antes | Agora |
+|---|---|
+| Situações | **Situações**, com as 14 como índice tipográfico |
+| Serviços + Como funciona | **O trabalho**: três frentes e a sequência de quatro passos |
+| Sobre + Vídeos | **A Isis**: texto, citação, ficha técnica e a galeria |
+| Depoimentos | **Depoimentos**, agora em caixa alta grande |
+| Regiões + Dúvidas | **Onde e quando**, lado a lado |
+| Contato | **Contato** |
+
+Duas coisas do sistema original foram deliberadamente desobedecidas, com motivo:
+
+1. **Texto corrido não é caixa alta.** A referência manda caixa alta em tudo a partir de
+   16px. Parágrafo inteiro em caixa alta, em português, sobre medo e agressividade do
+   cão, fica ilegível para quem chega cansado. Caixa alta vale para títulos, rótulos,
+   botões, listas e legendas; parágrafo é caixa normal, em Barlow.
+2. **O botão amarelo tem texto escuro, não branco.** A referência pede branco sobre
+   `#ffc000`, que dá 1.54:1 de contraste e reprova em qualquer nível. Com `#202020` dá
+   9.92:1.
+
+A fonte LamboType não é pública. O substituto é **Barlow Condensed** para títulos e
+interface, e **Barlow** para texto corrido, ambas do Google Fonts.
+
+A página inteira foi medida em contraste: **nenhum elemento reprova em AA**.
 
 ## 5. O que já está resolvido e não precisa de ação
 
