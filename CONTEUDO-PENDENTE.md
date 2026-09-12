@@ -27,7 +27,7 @@ Atualizado em 11 de setembro de 2026.
 | Item | Impacto atual |
 |---|---|
 | **Razão social e CNPJ** | O rodapé fica sem identificação legal. Há um comentário no HTML marcando o lugar. Ela respondeu que está abrindo a empresa. |
-| **Domínio próprio** | O site está publicado em um endereço da hospedagem. Enquanto não houver domínio, cartão de visita e material impresso ficam parados. |
+| **Domínio próprio** | O site está no ar em https://sit-happens-dog-training.vercel.app. Enquanto não houver domínio, cartão de visita e material impresso ficam parados. |
 | **Nome completo da Isis** | O site inteiro a chama pelo primeiro nome, como ela pediu. Para o rodapé e para o JSON-LD, o nome completo ajudaria. |
 
 ## 4. Decisões de marca que continuam abertas
@@ -38,6 +38,25 @@ Nenhuma destas trava o site, mas todas apareceram no briefing e merecem resposta
 - **O que o vetor ainda não resolve.** O cão da arte é uma foto realista gerada por IA, e a vetorização transformou o pelo em cerca de 1.300 formas de cor chapada. O resultado é escalável, porém não é uma logo editável: ninguém consegue mexer nele no Illustrator de forma prática, e ele não funciona em uma cor só. Bordado em camiseta e boné, gravação em coleira e qualquer aplicação monocromática continuam pedindo um redesenho manual do escudo, da faixa e de uma silhueta simplificada do cão.
 - **Ela não enviou nenhuma referência visual.** As perguntas sobre perfis do Instagram que ela acha bonitos e sobre um perfil que ela achou feio ficaram em branco, assim como a pergunta sobre concorrentes. O visual atual do site foi derivado apenas das notas de personalidade (profissional 4, tranquila 5, clássica 5, forte 5, sofisticada 4) e das cores medidas na logo.
 - **Registro no INPI.** Ela respondeu que não sabe o que é. O nome "Sit Happens Dog Training" não está registrado, e o site já publica a marca.
+
+## 4.1. Como o site vai para o ar
+
+**O projeto na Vercel não está ligado ao GitHub.** Push na `main` não publica nada.
+Descoberto em 11/09/2026, depois de três tentativas de publicar um depoimento que
+nunca apareceram no site: o projeto tinha ficado 28 dias sem deploy.
+
+Para publicar, da pasta do projeto:
+
+```
+vercel --prod
+```
+
+O `.vercelignore` mantém fora do ar o briefing, o CSV de respostas da Isis, as notas
+internas e os vídeos brutos do WhatsApp. Até 11/09/2026 esses arquivos estavam
+**públicos por engano**, baixáveis por qualquer um que soubesse o nome.
+
+Ligar o projeto ao repositório no painel da Vercel resolveria de vez, e cada push
+publicaria sozinho. Fica como pendência.
 
 ## 5. O que já está resolvido e não precisa de ação
 
